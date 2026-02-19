@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  background-color: #f5f1f9;
+}
+
+.main {
+  height: 100vh;
+}
+
+.calculation {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.calc-head{
+    height: 7vh;
+}
+.result{
+    height: 7vh;
+}
+.value{
+    height: 10vh;
+    font-size: 6vh;
+    margin-bottom: 8vh;
+}
+#deg-rad ,#function2{
+    height: 6vh;
+}
+
+#scientificCalc .col button {
+  height: 100%;
+  width: 100%;
+box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+
+}
+
+#calculator .col button {
+  height: 100%;
+  width: 100%;
+box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+
+}

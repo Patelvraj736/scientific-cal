@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="./calc.css">
+</head>
+
+<body>
+    <div class="offcanvas offcanvas-start"
+        tabindex="-1"
+        id="offcanvasExample"
+        aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title"
+                id="offcanvasExampleLabel">Calculator</h5>
+            <button type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <div class="btn btn-stan text-start" data-bs-dismiss="offcanvas"
+                onclick="changeToStandard()">Standard</div>
+            <div class="btn btn-stan text-start" data-bs-dismiss="offcanvas"
+                onclick="changeToScientific()">Scientific</div>
+        </div>
+    </div>
+
+    <div class="main d-flex w-100">
+        <div class="calculation w-100 w-lg-75  d-flex flex-column">
+
+            <div class="calc-head d-flex align-items-center p-2">
+                <button class="btn"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasExample"
+                    aria-controls="offcanvasExample">
+                    <img src="./assets/menu.svg"
+                        alt=""
+                        class="ham">
+                </button>
+                <div class="mode ms-2">Scientific</div>
+            </div>
+
+            <div class="d-flex result justify-content-end text-secondary p-2 align-items-center">ans</div>
+            <div class="value d-flex fw-bold p-2 justify-content-end align-items-center">0</div>
+
+            <div class="d-flex g-1 align-items-center"
+                id="deg-rad">
+                <div class="btn shadow-none deg-fn">DEG</div>
+                <div class="btn shadow-none deg-fn">F-E</div>
+            </div>
+
+            <div class="d-flex border-bottom g-1 align-items-center pb-3"
+                id="function2">
+                <div class="btn shadow-none deg-fn hover-overlay">MC</div>
+                <div class="btn shadow-none deg-fn">MR</div>
+                <div class="btn shadow-none deg-fn">M+</div>
+                <div class="btn shadow-none deg-fn">M-</div>
+                <div class="btn shadow-none deg-fn">Ms</div>
+            </div>
+
+            <div class="d-flex align-items-center g-1"
+                id="trigo-func">
+                <div class="dropdown me-2">
+                    <button class="btn dropdown-toggle shadow-none"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Trigonometry
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item"
+                                href="#">Action</a></li>
+                        <li><a class="dropdown-item"
+                                href="#">Another action</a></li>
+                        <li><a class="dropdown-item"
+                                href="#">Something else here</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle shadow-none"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Function
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item"
+                                href="#">Action</a></li>
+                        <li><a class="dropdown-item"
+                                href="#">Another action</a></li>
+                        <li><a class="dropdown-item"
+                                href="#">Something else here</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="calculator" class="d-flex flex-column mt-2 flex-grow-1"></div>
+            <!-- <div id="scientificCalc"
+                class="d-flex flex-column mt-2 flex-grow-1">
+                <div class="row row-cols-5 g-1 d-flex flex-grow-1">
+                    <div class="col"><button class="btn btn-light">2<sup>nd</sup></button></div>
+                    <div class="col"><button class="btn btn-light">π</button></div>
+                    <div class="col"><button class="btn btn-light">e</button></div>
+                    <div class="col"><button class="btn btn-light">CE</button></div>
+                    <div class="col"><button class="btn btn-light">⌫</button></div>
+
+                    <div class="col"><button class="btn btn-light">x<sup>2</sup></button></div>
+                    <div class="col"><button class="btn btn-light">1/x</button></div>
+                    <div class="col"><button class="btn btn-light">|x|</button></div>
+                    <div class="col"><button class="btn btn-light">exp</button></div>
+                    <div class="col"><button class="btn btn-light">mod</button></div>
+
+                    <div class="col"><button class="btn btn-light">√(x)</button></div>
+                    <div class="col"><button class="btn btn-light">(</button></div>
+                    <div class="col"><button class="btn btn-light">)</button></div>
+                    <div class="col"><button class="btn btn-light">n!</button></div>
+                    <div class="col"><button class="btn btn-light">÷</button></div>
+
+                    <div class="col"><button class="btn btn-light">x<sup>y</sup></button></div>
+                    <div class="col"><button class="btn btn-light">7</button></div>
+                    <div class="col"><button class="btn btn-light">8</button></div>
+                    <div class="col"><button class="btn btn-light">9</button></div>
+                    <div class="col"><button class="btn btn-light">×</button></div>
+
+                    <div class="col"><button class="btn btn-light">10<sup>x</sup></button></div>
+                    <div class="col"><button class="btn btn-light">4</button></div>
+                    <div class="col"><button class="btn btn-light">5</button></div>
+                    <div class="col"><button class="btn btn-light">6</button></div>
+                    <div class="col"><button class="btn btn-light">−</button></div>
+
+                    <div class="col"><button class="btn btn-light">log</button></div>
+                    <div class="col"><button class="btn btn-light">1</button></div>
+                    <div class="col"><button class="btn btn-light">2</button></div>
+                    <div class="col"><button class="btn btn-light">3</button></div>
+                    <div class="col"><button class="btn btn-light">+</button></div>
+
+                    <div class="col"><button class="btn btn-light">ln</button></div>
+                    <div class="col"><button class="btn btn-light">+/-</button></div>
+                    <div class="col"><button class="btn btn-light">0</button></div>
+                    <div class="col"><button class="btn btn-light">.</button></div>
+                    <div class="col"><button class="btn btn-primary">=</button></div>
+                </div>
+
+            </div>
+
+            <div id="standardCalc"
+                class="flex-column mt-2 flex-grow-1 d-none">
+                <div class="row row-cols-4 g-1 d-flex flex-grow-1">
+                    <div class="col"><button class="btn btn-light">%</button></div>
+                    <div class="col"><button class="btn btn-light">CE</button></div>
+                    <div class="col"><button class="btn btn-light">C</button></div>
+                    <div class="col"><button class="btn btn-light">⌫</button></div>
+                    <div class="col"><button class="btn btn-light">1/x</button></div>
+                    <div class="col"><button class="btn btn-light">x<sup>2</sup></button></div>
+                    <div class="col"><button class="btn btn-light">²√x</button></div>
+                    <div class="col"><button class="btn btn-light">÷</button></div>
+                    <div class="col"><button class="btn btn-light">7</button></div>
+                    <div class="col"><button class="btn btn-light">8</button></div>
+                    <div class="col"><button class="btn btn-light">9</button></div>
+                    <div class="col"><button class="btn btn-light">×</button></div>
+
+                    <div class="col"><button class="btn btn-light">4</button></div>
+                    <div class="col"><button class="btn btn-light">5</button></div>
+                    <div class="col"><button class="btn btn-light">6</button></div>
+                    <div class="col"><button class="btn btn-light">−</button></div>
+
+                    <div class="col"><button class="btn btn-light">1</button></div>
+                    <div class="col"><button class="btn btn-light">2</button></div>
+                    <div class="col"><button class="btn btn-light">3</button></div>
+                    <div class="col"><button class="btn btn-light">+</button></div>
+
+                    <div class="col"><button class="btn btn-light w-100">+/-</button></div>
+                    <div class="col"><button class="btn btn-light w-100">0</button></div>
+                    <div class="col"><button class="btn btn-light w-100">.</button></div>
+                    <div class="col"><button class="btn btn-primary w-100">=</button></div>
+
+                </div>
+
+            </div> -->
+        </div>
+        <div class="history  flex-grow-1 w-25 d-none d-lg-block">
+            <div class="histHead">
+                History
+            </div>
+            <div class="history-list">
+                <div class="operation text-secondary text-end">8*9</div>
+                <div class="hitory-result text-end">ans</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>
