@@ -50,12 +50,12 @@ function changeMode(mode) {
         renderButtons(scientificButtons, 5);
     }
 }
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
     changeMode("standard");
 });
 
-function changeToStandard(){
+function changeToStandard() {
     // scientific.classList.remove("d-flex");
     // scientific.classList.add("d-none");
     // standard.classList.remove("d-none");
@@ -67,7 +67,7 @@ function changeToStandard(){
     changeMode("standard");
     mode.innerHTML = "Standard";
 }
-function changeToScientific(){
+function changeToScientific() {
     // standard.classList.remove("d-flex");
     // standard.classList.add("d-none");
     // scientific.classList.remove("d-none");
@@ -77,7 +77,7 @@ function changeToScientific(){
     trigo.classList.add("d-flex");
     trigo.classList.remove("d-none");
     changeMode("scientific")
-    mode.innerHTML="Scientific";
+    mode.innerHTML = "Scientific";
 }
 
 let currDisplay = "0";
@@ -85,104 +85,190 @@ let storedValue = null;
 let currOperator = null;
 let shouldReset = false;
 
-function updateDisplay(){
+function updateDisplay() {
     valueDisplay.innerText = currDisplay;
 }
 
 
-document.addEventListener("click",(e)=>{
+document.addEventListener("click", (e) => {
     const button = e.target.closest("button");
-    if(!button) return;
+    if (!button) return;
     const val = button.innerText.trim();
-    if(!val) return;
-    handleinput(val); 
+    if (!val) return;
+    handleinput(val);
 })
 
-function appendDisplay(val){
-       if (shouldReset) {
+function appendDisplay(val) {
+    if (shouldReset) {
         currDisplay = val;
         shouldReset = false;
-    } 
-    else if(currDisplay==="0"){
-        currDisplay=val;
     }
-    else{
-        currDisplay+=val;
+    else if (currDisplay === "0") {
+        currDisplay = val;
+    }
+    else if (val === "." && currDisplay.includes(".")) {
+        return;
+    }
+    else {
+        currDisplay += val;
     }
     updateDisplay();
 }
 
-function handleinput(val){
-    if(!isNaN(val) || val=== "."){
+function handleinput(val) {
+    if (!isNaN(val) || val === ".") {
         appendDisplay(val);
     }
-    else if(["+","−","×","÷"].includes(val)){
+    else if (["+", "−", "×", "÷"].includes(val)) {
         chooseOperator(val);
     }
-    else if(val ==="CE"){
+    else if (val === "CE") {
         clearEntry();
     }
-    else if(val==="⌫"){
+    else if (val === "⌫") {
         backSpace();
     }
-    else if(val==="C"){
+    else if (val === "C") {
         clearAll();
     }
-    else if(val==="="){
+    else if (val === "=") {
         calculate();
     }
+    else if (val === "+/-") {
+    toggleSign();
+}
+else if (val === "%") {
+    percentage();
+}
+else if (val === "x²") {
+    square();
+}
+else if (val === "√x") {
+    squareRoot();
+}
+else if (val === "1/x") {
+    reciprocal();
 }
 
-function backSpace(){
-    if(currDisplay.length===1){
-        currDisplay="0";
+
+
+}
+
+function backSpace() {
+    if (currDisplay.length === 1) {
+        currDisplay = "0";
     }
-    else{
-        currDisplay=currDisplay.slice(0,-1)
+    else {
+        currDisplay = currDisplay.slice(0, -1)
     }
     updateDisplay();
 }
-function clearEntry(){
-        currDisplay="0";
-        updateDisplay();
+function clearEntry() {
+    currDisplay = "0";
+    updateDisplay();
 }
-function clearAll(){
+function clearAll() {
     currDisplay = "0";
     currOperator = null;
     storedValue = null;
+    resultDisplay.innerText = "";
     updateDisplay();
 }
-function chooseOperator(op){
-    if(currOperator!==null){
+function chooseOperator(op) {
+    if (currOperator !== null) {
         calculate();
     }
     storedValue = currDisplay;
-    currOperator=op;
+    currOperator = op;
     shouldReset = true;
+    resultDisplay.innerText = storedValue + " " + op;
 }
-function calculate(){
-    if(currOperator === null || shouldReset) return;
+
+function calculate() {
+    if (currOperator === null || shouldReset) return;
 
     const curr = parseFloat(currDisplay);
     const prev = parseFloat(storedValue);
     let result;
-    switch(currOperator){
+    switch (currOperator) {
         case "+":
-        result = prev + curr;
-        break;
-         case "−":
-        result = prev - curr;
-        break;
-         case "÷":
-        result = prev / curr;
-        break;
-         case "×":
-        result = prev * curr;
-        break;
+            result = prev + curr;
+            break;
+        case "−":
+            result = prev - curr;
+            break;
+        case "÷":
+            if (curr === 0) {
+                currDisplay = "Error";
+                resultDisplay.innerText = "";
+                storedValue = null;
+                currOperator = null;
+                updateDisplay();
+                return;
+            }
+            result = prev / curr;
+            break;
+        case "×":
+            result = prev * curr;
+            break;
     }
+    resultDisplay.innerText = storedValue + " " + currOperator + " " + currDisplay + " ="
     currDisplay = result.toString();
     storedValue = null;
     currOperator = null;
     shouldReset = true;
     updateDisplay();
 }
+function toggleSign(){
+    if (currDisplay === "0" || currDisplay === "Error") return;
+
+    if (currDisplay.startsWith("-")) {
+        currDisplay = currDisplay.slice(1);
+    } else {
+        currDisplay = "-" + currDisplay;
+    }
+
+    updateDisplay();
+}
+function percentage(){
+
+    const curr = parseFloat(currDisplay);
+
+    if (storedValue !== null && currOperator !== null){
+        const prev = parseFloat(storedValue);
+        currDisplay = (prev * curr / 100).toString();
+    } else {
+        currDisplay = (curr / 100).toString();
+    }
+
+    updateDisplay();
+}
+function square(){
+    const num = parseFloat(currDisplay);
+    currDisplay = (num * num).toString();
+    updateDisplay();
+}
+function squareRoot(){
+    const num = parseFloat(currDisplay);
+
+    if (num < 0){
+        currDisplay = "Error";
+    } else {
+        currDisplay = Math.sqrt(num).toString();
+    }
+
+    updateDisplay();
+}
+function reciprocal(){
+    const num = parseFloat(currDisplay);
+
+    if (num === 0){
+        currDisplay = "Error";
+    } else {
+        currDisplay = (1 / num).toString();
+    }
+
+    updateDisplay();
+}
+
+
