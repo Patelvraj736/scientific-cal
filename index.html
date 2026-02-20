@@ -28,9 +28,11 @@
                 aria-label="Close"></button>
         </div>
         <div class="offcanvas-body d-flex flex-column">
-            <div class="btn btn-stan text-start" data-bs-dismiss="offcanvas"
+            <div class="btn btn-stan text-start"
+                data-bs-dismiss="offcanvas"
                 onclick="changeToStandard()">Standard</div>
-            <div class="btn btn-stan text-start" data-bs-dismiss="offcanvas"
+            <div class="btn btn-stan text-start"
+                data-bs-dismiss="offcanvas"
                 onclick="changeToScientific()">Scientific</div>
         </div>
     </div>
@@ -71,6 +73,26 @@
 
             <div class="d-flex align-items-center g-1"
                 id="trigo-func">
+                <!-- <div class="dropdown me-2">
+                    <button class="btn dropdown-toggle shadow-none"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Trigonometry
+                    </button>
+                    <ul class="dropdown-menu p-3">
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 20vw;">
+                            <button class="trigo btn btn-light">2nd</button>
+                            <button class="trigo btn btn-light">sin</button>
+                            <button class="trigo btn btn-light">cos</button>
+                            <button class="trigo btn btn-light">tan</button>
+                            <button class="trigo btn btn-light">hyp</button>
+                            <button class="trigo btn btn-light">sec</button>
+                            <button class="trigo btn btn-light">csc</button>
+                            <button class="trigo btn btn-light">cot</button>
+                        </div>
+                    </ul>
+                </div> -->
                 <div class="dropdown me-2">
                     <button class="btn dropdown-toggle shadow-none"
                         type="button"
@@ -78,33 +100,43 @@
                         aria-expanded="false">
                         Trigonometry
                     </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item"
-                                href="#">Action</a></li>
-                        <li><a class="dropdown-item"
-                                href="#">Another action</a></li>
-                        <li><a class="dropdown-item"
-                                href="#">Something else here</a></li>
+                    <ul class="dropdown-menu p-3">
+                        <div id="trig-grid"></div>
                     </ul>
                 </div>
-                <div class="dropdown">
+
+                <div class="dropdown me-2">
                     <button class="btn dropdown-toggle shadow-none"
                         type="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Function
                     </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item"
-                                href="#">Action</a></li>
-                        <li><a class="dropdown-item"
-                                href="#">Another action</a></li>
-                        <li><a class="dropdown-item"
-                                href="#">Something else here</a></li>
+                    <ul class="dropdown-menu p-3">
+                        <div id="func-grid"></div>
                     </ul>
                 </div>
+                <!-- <div class="dropdown me-2">
+                    <button class="btn dropdown-toggle shadow-none"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Function
+                    </button>
+                    <ul class="dropdown-menu p-3">
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 20vw;">
+                            <button class="trigo btn btn-light">|x|</button>
+                            <button class="trigo btn btn-light">⌊x⌋</button>
+                            <button class="trigo btn btn-light">⌈x⌉</button>
+                            <button class="trigo btn btn-light">rand</button>
+                            <button class="trigo btn btn-light">→dms</button>
+                            <button class="trigo btn btn-light">→deg</button>
+                        </div>
+                    </ul>
+                </div> -->
             </div>
-            <div id="calculator" class="d-flex flex-column mt-2 flex-grow-1"></div>
+            <div id="calculator"
+                class="d-flex flex-column mt-2 flex-grow-1"></div>
             <!-- <div id="scientificCalc"
                 class="d-flex flex-column mt-2 flex-grow-1">
                 <div class="row row-cols-5 g-1 d-flex flex-grow-1">

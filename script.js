@@ -1,9 +1,10 @@
-
 let mode = document.querySelector(".mode");
 let deg = document.getElementById("deg-rad");
 let trigo = document.getElementById("trigo-func");
 const valueDisplay = document.querySelector(".value");
 const resultDisplay = document.querySelector(".result");
+const historyContainer = document.querySelector(".history-list");
+const calculator = document.getElementById("calculator");
 
 const standardButtons = [
     "%", "CE", "C", "⌫",
@@ -15,7 +16,7 @@ const standardButtons = [
 ];
 
 const scientificButtons = [
-    "2nd", "π", "e", "CE", "⌫",
+    "2nd", "π", "e", "C", "⌫",
     "x²", "1/x", "|x|", "exp", "mod",
     "√x", "(", ")", "n!", "÷",
     "xʸ", "7", "8", "9", "×",
@@ -24,7 +25,35 @@ const scientificButtons = [
     "ln", "+/-", "0", ".", "="
 ];
 
-const calculator = document.getElementById("calculator");
+const trigButtons = ["2nd", "sin", "cos", "tan", "hyp", "sec", "csc", "cot"];
+const funcButtons = ["|x|", "⌊x⌋", "⌈x⌉", "rand", "→dms", "→deg"];
+
+function renderDropdownButtons(buttonSet, containerId, columns) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    const gridDiv = document.createElement("div");
+    gridDiv.style.display = "grid";
+    gridDiv.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+    gridDiv.style.gap = "8px";
+    gridDiv.style.width = "20vw";
+
+    buttonSet.forEach(text => {
+        const btn = document.createElement("button");
+        btn.className = "trigo btn btn-light w-100"; 
+        btn.innerText = text;
+        gridDiv.appendChild(btn);
+    });
+
+    container.appendChild(gridDiv);
+}
+document.addEventListener("DOMContentLoaded", function () {
+
+    changeMode("scientific");
+    renderDropdownButtons(trigButtons, "trig-grid", 4);
+    renderDropdownButtons(funcButtons, "func-grid", 3);
+    renderHistory();
+});
 
 function renderButtons(buttonSet, columns) {
     calculator.innerHTML = "";
@@ -50,16 +79,7 @@ function changeMode(mode) {
         renderButtons(scientificButtons, 5);
     }
 }
-document.addEventListener("DOMContentLoaded", function () {
-
-    changeMode("standard");
-});
-
 function changeToStandard() {
-    // scientific.classList.remove("d-flex");
-    // scientific.classList.add("d-none");
-    // standard.classList.remove("d-none");
-    // standard.classList.add("d-flex");
     deg.classList.remove("d-flex");
     deg.classList.add("d-none");
     trigo.classList.remove("d-flex");
@@ -68,10 +88,6 @@ function changeToStandard() {
     mode.innerHTML = "Standard";
 }
 function changeToScientific() {
-    // standard.classList.remove("d-flex");
-    // standard.classList.add("d-none");
-    // scientific.classList.remove("d-none");
-    // scientific.classList.add("d-flex");
     deg.classList.add("d-flex");
     deg.classList.remove("d-none");
     trigo.classList.add("d-flex");
@@ -135,23 +151,50 @@ function handleinput(val) {
         calculate();
     }
     else if (val === "+/-") {
-    toggleSign();
-}
-else if (val === "%") {
-    percentage();
-}
-else if (val === "x²") {
-    square();
-}
-else if (val === "√x") {
-    squareRoot();
-}
-else if (val === "1/x") {
-    reciprocal();
-}
-
-
-
+        toggleSign();
+    }
+    else if (val === "%") {
+        percentage();
+    }
+    else if (val === "x²") {
+        square();
+    }
+    else if (val === "√x") {
+        squareRoot();
+    }
+    else if (val === "1/x") {
+        reciprocal();
+    }
+    else if (val === "π") {
+        insConst(Math.PI);
+    }
+    else if (val === "e") {
+        insConst(Math.E);
+    }
+    else if (val === "xʸ") {
+        chooseOperator("^");
+    }
+    else if (val === "n!") {
+        factorial();
+    }
+    else if (val === "mod") {
+        chooseOperator(val);
+    }
+    else if (val === "exp") {
+        expPower();
+    }
+    else if (val === "10ˣ") {
+        tenPower();
+    }
+    else if (val === "log") {
+        logBase10();
+    }
+    else if (val === "ln") {
+        naturalLog();
+    }
+    else if (val === "|x|") {
+        absoluteValue();
+    }
 }
 
 function backSpace() {
@@ -191,35 +234,25 @@ function calculate() {
     const prev = parseFloat(storedValue);
     let result;
     switch (currOperator) {
-        case "+":
-            result = prev + curr;
-            break;
-        case "−":
-            result = prev - curr;
-            break;
+        case "+": result = prev + curr; break;
+        case "−": result = prev - curr; break;
         case "÷":
             if (curr === 0) {
-                currDisplay = "Error";
-                resultDisplay.innerText = "";
+                updateResult("Error", "");
                 storedValue = null;
                 currOperator = null;
-                updateDisplay();
                 return;
             }
-            result = prev / curr;
-            break;
-        case "×":
-            result = prev * curr;
-            break;
+            result = prev / curr; break;
+        case "×": result = prev * curr; break;
+        case "^": result = Math.pow(prev, curr); break;
+        case "mod": result = prev % curr; break;
     }
-    resultDisplay.innerText = storedValue + " " + currOperator + " " + currDisplay + " ="
-    currDisplay = result.toString();
+    updateResult(result, prev + " " + currOperator + " " + curr);
     storedValue = null;
     currOperator = null;
-    shouldReset = true;
-    updateDisplay();
 }
-function toggleSign(){
+function toggleSign() {
     if (currDisplay === "0" || currDisplay === "Error") return;
 
     if (currDisplay.startsWith("-")) {
@@ -230,11 +263,11 @@ function toggleSign(){
 
     updateDisplay();
 }
-function percentage(){
+function percentage() {
 
     const curr = parseFloat(currDisplay);
 
-    if (storedValue !== null && currOperator !== null){
+    if (storedValue !== null && currOperator !== null) {
         const prev = parseFloat(storedValue);
         currDisplay = (prev * curr / 100).toString();
     } else {
@@ -243,32 +276,81 @@ function percentage(){
 
     updateDisplay();
 }
-function square(){
-    const num = parseFloat(currDisplay);
-    currDisplay = (num * num).toString();
-    updateDisplay();
-}
-function squareRoot(){
-    const num = parseFloat(currDisplay);
 
-    if (num < 0){
-        currDisplay = "Error";
-    } else {
-        currDisplay = Math.sqrt(num).toString();
-    }
+function updateResult(currDisplayValue, displayExpression) {
+    currDisplay = currDisplayValue.toString();
+    resultDisplay.innerText = displayExpression;
+    shouldReset = true;
 
-    updateDisplay();
-}
-function reciprocal(){
-    const num = parseFloat(currDisplay);
-
-    if (num === 0){
-        currDisplay = "Error";
-    } else {
-        currDisplay = (1 / num).toString();
-    }
-
+    if (displayExpression) saveToHistory(displayExpression, currDisplay); 
     updateDisplay();
 }
 
+function square() { updateResult(parseFloat(currDisplay) ** 2, currDisplay + "²"); }
+function squareRoot() {
+    const num = parseFloat(currDisplay);
+    if (num < 0) updateResult("Error", "");
+    else updateResult(Math.sqrt(num), "√(" + currDisplay + ")");
+}
+function reciprocal() {
+    const num = parseFloat(currDisplay);
+    if (num === 0) updateResult("Error", "");
+    else updateResult(1 / num, "1/(" + currDisplay + ")");
+}
+function factorial() {
+    const num = parseFloat(currDisplay);
+    if (num < 0 || !Number.isInteger(num)) { updateResult("Error", ""); return; }
+    let result = 1; for (let i = 2; i <= num; i++) result *= i;
+    updateResult(result, "fact(" + currDisplay + ")");
+}
+function expPower() { updateResult(Math.exp(parseFloat(currDisplay)), "e^(" + currDisplay + ")"); }
+function tenPower() { updateResult(Math.pow(10, parseFloat(currDisplay)), "10^(" + currDisplay + ")"); }
+function logBase10() {
+    const num = parseFloat(currDisplay);
+    if (num <= 0) updateResult("Error", "");
+    else updateResult(Math.log10(num), "log(" + currDisplay + ")");
+}
+function naturalLog() {
+    const num = parseFloat(currDisplay);
+    if (num <= 0) updateResult("Error", "");
+    else updateResult(Math.log(num), "ln(" + currDisplay + ")");
+}
+function absoluteValue() { updateResult(Math.abs(parseFloat(currDisplay)), "|" + currDisplay + "|"); }
+function insConst(value) { updateResult(value, value.toString()); }
 
+function saveToHistory(expression, result) {
+    const history = JSON.parse(localStorage.getItem("calcHistory")) || [];
+
+    history.push({ expression, result });
+
+    localStorage.setItem("calcHistory", JSON.stringify(history));
+
+    renderHistory();
+}
+function renderHistory() {
+    const history = JSON.parse(localStorage.getItem("calcHistory")) || [];
+
+    historyContainer.innerHTML = "";
+
+    history.forEach(item => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "history-item mb-2";
+
+        const exp = document.createElement("div");
+        exp.className = "operation text-secondary text-end";
+        exp.innerText = item.expression;
+
+        const res = document.createElement("div");
+        res.className = "history-result text-end fw-bold";
+        res.innerText = item.result;
+
+        wrapper.appendChild(exp);
+        wrapper.appendChild(res);
+
+        historyContainer.prepend(wrapper);
+    });
+}
+function clearHistory() {
+    localStorage.removeItem("calcHistory");
+    renderHistory();
+}

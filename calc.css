@@ -40,3 +40,8 @@ box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 
 }
+.trigo{
+  padding: 12px 0; 
+  font-size: 1rem; 
+  width: 100%;
+}
