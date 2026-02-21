@@ -3,37 +3,23 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-        crossorigin="anonymous">
-    <link rel="stylesheet"
-        href="./calc.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="./calc.css">
 </head>
 
 <body>
-    <div class="offcanvas offcanvas-start"
-        tabindex="-1"
-        id="offcanvasExample"
-        aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title"
-                id="offcanvasExampleLabel">Calculator</h5>
-            <button type="button"
-                class="btn-close"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Calculator</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body d-flex flex-column">
-            <div class="btn btn-stan text-start"
-                data-bs-dismiss="offcanvas"
-                onclick="changeToStandard()">Standard</div>
-            <div class="btn btn-stan text-start"
-                data-bs-dismiss="offcanvas"
-                onclick="changeToScientific()">Scientific</div>
+            <div class="btn btn-stan text-start" data-bs-dismiss="offcanvas" onclick="changeToStandard()">Standard</div>
+            <div class="btn btn-stan text-start" data-bs-dismiss="offcanvas" onclick="changeToScientific()">Scientific
+            </div>
         </div>
     </div>
 
@@ -41,31 +27,25 @@
         <div class="calculation w-100 w-lg-75  d-flex flex-column">
 
             <div class="calc-head d-flex align-items-center p-2">
-                <button class="btn"
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasExample"
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
                     aria-controls="offcanvasExample">
-                    <img src="./assets/menu.svg"
-                        alt=""
-                        class="ham">
+                    <img src="./assets/menu.svg" alt="" class="ham">
                 </button>
                 <div class="mode ms-2">Scientific</div>
-                    <button id="theme-toggle" class="btn shadow-none ms-auto">
-        🌙
-    </button>
+                <button id="theme-toggle" class="btn shadow-none ms-auto">
+                    Dark Theme
+                </button>
             </div>
 
             <div class="d-flex result justify-content-end text-secondary p-2 align-items-center"></div>
             <div class="value d-flex fw-bold p-2 justify-content-end align-items-center">0</div>
 
-<div class="d-flex g-1 align-items-center" id="deg-rad">
-    <button id="angle-mode" class="btn shadow-none angle-btn">DEG</button>
-    <button class="btn shadow-none fe-fn">F-E</button>
-</div>
+            <div class="d-flex g-1 align-items-center" id="deg-rad">
+                <button id="angle-mode" class="btn shadow-none angle-btn">DEG</button>
+                <button class="btn shadow-none fe-fn">F-E</button>
+            </div>
 
-            <div class="d-flex border-bottom g-1 align-items-center pb-3"
-                id="function2">
+            <div class="d-flex border-bottom g-1 align-items-center pb-3" id="function2">
                 <div class="btn shadow-none deg-fn hover-overlay">MC</div>
                 <div class="btn shadow-none deg-fn">MR</div>
                 <div class="btn shadow-none deg-fn">M+</div>
@@ -73,8 +53,7 @@
                 <div class="btn shadow-none deg-fn">Ms</div>
             </div>
 
-            <div class="d-flex align-items-center g-1"
-                id="trigo-func">
+            <div class="d-flex align-items-center g-1" id="trigo-func">
                 <!-- <div class="dropdown me-2">
                     <button class="btn dropdown-toggle shadow-none"
                         type="button"
@@ -96,9 +75,7 @@
                     </ul>
                 </div> -->
                 <div class="dropdown me-2">
-                    <button class="btn dropdown-toggle shadow-none"
-                        type="button"
-                        data-bs-toggle="dropdown"
+                    <button class="btn dropdown-toggle shadow-none" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Trigonometry
                     </button>
@@ -108,9 +85,7 @@
                 </div>
 
                 <div class="dropdown me-2">
-                    <button class="btn dropdown-toggle shadow-none"
-                        type="button"
-                        data-bs-toggle="dropdown"
+                    <button class="btn dropdown-toggle shadow-none" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Function
                     </button>
@@ -137,8 +112,7 @@
                     </ul>
                 </div> -->
             </div>
-            <div id="calculator"
-                class="d-flex flex-column mt-2 flex-grow-1"></div>
+            <div id="calculator" class="d-flex flex-column mt-2 flex-grow-1"></div>
             <!-- <div id="scientificCalc"
                 class="d-flex flex-column mt-2 flex-grow-1">
                 <div class="row row-cols-5 g-1 d-flex flex-grow-1">
@@ -224,16 +198,12 @@
         </div>
         <div class="history  flex-grow-1 w-25 d-none d-lg-block">
             <div class="histHead d-flex justify-content-between align-items-center p-2">
-    <span>History</span>
+                <span>History</span>
 
-    <button class="btn btn-sm p-0 border-0 bg-transparent clear-history-btn"
-        onclick="clearHistory()">
-        <img src="./assets/clear.svg"
-             alt="Clear History"
-             width="18"
-             height="18">
-    </button>
-</div>
+                <button class="btn btn-sm p-0 border-0 bg-transparent clear-history-btn" onclick="clearHistory()">
+                    <img src="./assets/clear.svg" alt="Clear History" width="18" height="18">
+                </button>
+            </div>
             <div class="history-list">
                 <div class="operation text-secondary text-end">There's no History yet</div>
                 <div class="hitory-result text-end"></div>

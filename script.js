@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (savedTheme === "dark") {
         document.body.classList.add("dark-mode");
-        themeToggle.innerText = "☀️";
+        themeToggle.innerText = "Light Theme";
     }
 });
 
@@ -598,10 +598,10 @@ themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
 
     if (document.body.classList.contains("dark-mode")) {
-        themeToggle.innerText = "☀️";
+        themeToggle.innerText = "Light Theme";
         localStorage.setItem("theme", "dark");
     } else {
-        themeToggle.innerText = "🌙";
+        themeToggle.innerText = "Dark Theme";
         localStorage.setItem("theme", "light");
     }
 });
