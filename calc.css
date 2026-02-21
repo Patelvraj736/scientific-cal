@@ -111,7 +111,7 @@ body {
     background-color: #e5e5e5;
 }
 
-.selMode:hover{
+.selMode:hover {
     background-color: #e5e5e5;
 }
 
@@ -208,12 +208,15 @@ body {
 .dark-mode .fe-fn:hover {
     background-color: #2a2a2a;
 }
-.dark-mode .selMode:hover{
+
+.dark-mode .selMode:hover {
     background-color: #2a2a2a;
 }
+
 .dark-mode .memr-btn:hover {
     background-color: #2a2a2a;
 }
+
 .mem-btn:hover,
 .hist-btn:hover {
     background-color: #2a2a2a;
@@ -283,10 +286,6 @@ body {
 
 @media (max-width: 991px) {
 
-    .value {
-
-    margin-bottom: 0;
-}
     #history-pan {
         position: fixed;
         top: 0;
