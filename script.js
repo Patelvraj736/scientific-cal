@@ -5,6 +5,8 @@ const valueDisplay = document.querySelector(".value");
 const resultDisplay = document.querySelector(".result");
 const historyContainer = document.querySelector(".history-list");
 const calculator = document.getElementById("calculator");
+const angleBtn = document.getElementById("angle-mode");
+const feBtn = document.querySelector(".fe-fn");
 
 const standardButtons = [
     "%", "CE", "C", "⌫",
@@ -28,6 +30,16 @@ const scientificButtons = [
 const trigButtons = ["2nd", "sin", "cos", "tan", "hyp", "sec", "csc", "cot"];
 const funcButtons = ["|x|", "⌊x⌋", "⌈x⌉", "rand", "→dms", "→deg"];
 
+let isDegree = true;
+let isExponential = false;
+
+
+
+angleBtn.addEventListener("click", () => {
+    isDegree = !isDegree;
+    angleBtn.innerText = isDegree ? "DEG" : "RAD";
+});
+
 function renderDropdownButtons(buttonSet, containerId, columns) {
     const container = document.getElementById(containerId);
     container.innerHTML = "";
@@ -40,7 +52,7 @@ function renderDropdownButtons(buttonSet, containerId, columns) {
 
     buttonSet.forEach(text => {
         const btn = document.createElement("button");
-        btn.className = "trigo btn btn-light w-100"; 
+        btn.className = "trigo btn btn-light w-100";
         btn.innerText = text;
         gridDiv.appendChild(btn);
     });
@@ -195,6 +207,24 @@ function handleinput(val) {
     else if (val === "|x|") {
         absoluteValue();
     }
+    else if (["sin", "cos", "tan", "sec", "csc", "cot"].includes(val)) {
+        applyTrig(val);
+    }
+    else if (val === "F-E") {
+    toggleFE();
+}
+else if (val === "⌊x⌋") {
+    floorValue();
+}
+else if (val === "rand") {
+    randomValue();
+}
+else if (val === "→dms") {
+    toDMS();
+}
+else if (val === "→deg") {
+    toDecimalDegrees();
+}
 }
 
 function backSpace() {
@@ -248,7 +278,7 @@ function calculate() {
         case "^": result = Math.pow(prev, curr); break;
         case "mod": result = prev % curr; break;
     }
-    updateResult(result, prev + " " + currOperator + " " + curr);
+    updateResult(result, prev + " " + currOperator + " " + curr + " =");
     storedValue = null;
     currOperator = null;
 }
@@ -282,7 +312,7 @@ function updateResult(currDisplayValue, displayExpression) {
     resultDisplay.innerText = displayExpression;
     shouldReset = true;
 
-    if (displayExpression) saveToHistory(displayExpression, currDisplay); 
+    if (displayExpression) saveToHistory(displayExpression, currDisplay);
     updateDisplay();
 }
 
@@ -316,7 +346,12 @@ function naturalLog() {
     else updateResult(Math.log(num), "ln(" + currDisplay + ")");
 }
 function absoluteValue() { updateResult(Math.abs(parseFloat(currDisplay)), "|" + currDisplay + "|"); }
-function insConst(value) { updateResult(value, value.toString()); }
+function insConst(value) {
+    if (!shouldReset && /[0-9)]$/.test(currDisplay)) {
+        chooseOperator("×");
+    }
+    appendDisplay(value.toString());
+}
 
 function saveToHistory(expression, result) {
     const history = JSON.parse(localStorage.getItem("calcHistory")) || [];
@@ -331,6 +366,17 @@ function renderHistory() {
     const history = JSON.parse(localStorage.getItem("calcHistory")) || [];
 
     historyContainer.innerHTML = "";
+
+    const clearBtn = document.querySelector(".clear-history-btn");
+
+    if (history.length === 0) {
+        clearBtn.style.opacity = "0";
+        clearBtn.style.pointerEvents = "none";
+        return;
+    } else {
+        clearBtn.style.opacity = "1";
+        clearBtn.style.pointerEvents = "auto";
+    }
 
     history.forEach(item => {
         const wrapper = document.createElement("div");
@@ -354,3 +400,90 @@ function clearHistory() {
     localStorage.removeItem("calcHistory");
     renderHistory();
 }
+function applyTrig(type) {
+    let num = parseFloat(currDisplay);
+
+    if (isDegree) {
+        num = num * (Math.PI / 180);
+    }
+
+    let result;
+
+    switch (type) {
+        case "sin":
+            result = Math.sin(num);
+            break;
+        case "cos":
+            result = Math.cos(num);
+            break;
+        case "tan":
+            result = Math.tan(num);
+            break;
+        case "sec":
+            result = 1 / Math.cos(num);
+            break;
+        case "csc":
+            result = 1 / Math.sin(num);
+            break;
+        case "cot":
+            result = 1 / Math.tan(num);
+            break;
+    }
+
+    if (!isFinite(result)) {
+        updateResult("Error", "");
+        return;
+    }
+
+    updateResult(result, `${type}(${currDisplay})`);
+}
+function toggleFE() {
+    isExponential = !isExponential;
+        feBtn.classList.toggle("active-fe", isExponential);
+    let num = parseFloat(currDisplay);
+    if (isNaN(num)) return;
+
+    if (isExponential) {
+        currDisplay = num.toExponential(10);
+    } else {
+        currDisplay = num.toString();
+    }
+
+    updateDisplay();
+}   
+function floorValue() {
+    updateResult(Math.floor(parseFloat(currDisplay)), `⌊${currDisplay}⌋`);
+}
+function toDecimalDegrees() {
+    const match = currDisplay.match(/(-?\d+)°\s*(\d+)'?\s*(\d+(\.\d+)?)?/);
+    if (!match) return;
+
+    const deg = parseFloat(match[1]);
+    const min = parseFloat(match[2]) || 0;
+    const sec = parseFloat(match[3]) || 0;
+
+    const decimal = deg + (min / 60) + (sec / 3600);
+
+    updateResult(decimal, "→deg");
+}
+function toDMS() {
+    let decimal = parseFloat(currDisplay);
+    if (isNaN(decimal)) return;
+
+    const degrees = Math.trunc(decimal);
+    const minutesFloat = Math.abs((decimal - degrees) * 60);
+    const minutes = Math.trunc(minutesFloat);
+    const seconds = ((minutesFloat - minutes) * 60).toFixed(2);
+
+    const result = `${degrees}° ${minutes}' ${seconds}"`;
+
+    currDisplay = result;
+    updateDisplay();
+}
+function randomValue() {
+    const num = Math.random();
+    updateResult(num, "rand()");
+}
+function ceilValue() {
+    updateResult(Math.ceil(parseFloat(currDisplay)), `⌈${currDisplay}⌉`);
+}       

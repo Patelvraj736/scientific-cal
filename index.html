@@ -53,14 +53,13 @@
                 <div class="mode ms-2">Scientific</div>
             </div>
 
-            <div class="d-flex result justify-content-end text-secondary p-2 align-items-center">ans</div>
+            <div class="d-flex result justify-content-end text-secondary p-2 align-items-center"></div>
             <div class="value d-flex fw-bold p-2 justify-content-end align-items-center">0</div>
 
-            <div class="d-flex g-1 align-items-center"
-                id="deg-rad">
-                <div class="btn shadow-none deg-fn">DEG</div>
-                <div class="btn shadow-none deg-fn">F-E</div>
-            </div>
+<div class="d-flex g-1 align-items-center" id="deg-rad">
+    <button id="angle-mode" class="btn shadow-none angle-btn">DEG</button>
+    <button class="btn shadow-none fe-fn">F-E</button>
+</div>
 
             <div class="d-flex border-bottom g-1 align-items-center pb-3"
                 id="function2">
@@ -221,12 +220,20 @@
             </div> -->
         </div>
         <div class="history  flex-grow-1 w-25 d-none d-lg-block">
-            <div class="histHead">
-                History
-            </div>
+            <div class="histHead d-flex justify-content-between align-items-center p-2">
+    <span>History</span>
+
+    <button class="btn btn-sm p-0 border-0 bg-transparent clear-history-btn"
+        onclick="clearHistory()">
+        <img src="./assets/clear.svg"
+             alt="Clear History"
+             width="18"
+             height="18">
+    </button>
+</div>
             <div class="history-list">
-                <div class="operation text-secondary text-end">8*9</div>
-                <div class="hitory-result text-end">ans</div>
+                <div class="operation text-secondary text-end">There's no History yet</div>
+                <div class="hitory-result text-end"></div>
             </div>
         </div>
     </div>

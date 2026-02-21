@@ -45,3 +45,45 @@ box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   font-size: 1rem; 
   width: 100%;
 }
+.clear-history-btn {
+    bottom: 15px;
+    right: 15px;
+    border: none;
+    background: transparent;
+    opacity: 0;
+    transition: 0.2s ease;
+    cursor: pointer;
+}
+
+.clear-history-btn img {
+    opacity: 0.6;
+    transition: 0.2s ease;
+}
+
+.clear-history-btn:hover img {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+.angle-btn,
+.fe-fn {
+    background: transparent;
+    border: none;
+    position: relative;
+}
+
+.angle-btn:hover,
+.fe-fn:hover {
+    background-color: #e5e5e5;
+}
+
+.fe-fn.active-fe::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 33%;
+    width: 35%;
+    height: 3px;
+    background-color: #ff8c00;
+    border-radius: 3px;
+}
