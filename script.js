@@ -109,6 +109,12 @@ document.addEventListener("DOMContentLoaded", function () {
     renderDropdownButtons(funcButtons, "func-grid", 3);
     renderHistory();
     feBtn.addEventListener("click", toggleFE);
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+        themeToggle.innerText = "☀️";
+    }
 });
 
 function renderButtons(buttonSet, columns) {
@@ -586,3 +592,16 @@ function randomValue() {
 function ceilValue() {
     updateResult(Math.ceil(parseFloat(currDisplay)), `⌈${currDisplay}⌉`);
 }       
+const themeToggle = document.getElementById("theme-toggle");
+
+themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+
+    if (document.body.classList.contains("dark-mode")) {
+        themeToggle.innerText = "☀️";
+        localStorage.setItem("theme", "dark");
+    } else {
+        themeToggle.innerText = "🌙";
+        localStorage.setItem("theme", "light");
+    }
+});

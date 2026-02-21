@@ -87,3 +87,91 @@ box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
     background-color: #ff8c00;
     border-radius: 3px;
 }
+
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.dark-mode .calculation,
+.dark-mode .history {
+    background-color: #1e1e1e;
+}
+
+.dark-mode .value,
+.dark-mode .result,
+.dark-mode .mode,
+.dark-mode .histHead,
+.dark-mode .operation,
+.dark-mode .history-result {
+    color: #ffffff !important;
+}
+.dark-mode .btn-light {
+    background-color: #2a2a2a !important;
+    color: #ffffff !important;
+    border-color: #3a3a3a !important;
+}
+
+.dark-mode .btn-primary {
+    background-color: #ff8c00 !important;
+    border-color: #ff8c00 !important;
+}
+.dark-mode .dropdown-menu {
+    background-color: #2a2a2a;
+    color: white;
+    border: 1px solid #444;
+}
+
+.dark-mode .offcanvas {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.dark-mode .btn-light:hover {
+    background-color: #3a3a3a !important;
+}
+
+.dark-mode #calculator .col button,
+.dark-mode .trigo {
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.08);
+}
+
+.dark-mode .angle-btn:hover,
+.dark-mode .fe-fn:hover {
+    background-color: #2a2a2a;
+}
+
+.dark-mode .dropdown-toggle {
+    color: #ffffff !important;
+}
+
+.dark-mode #function2 .btn {
+    color: #ffffff !important;
+}
+
+.dark-mode #deg-rad .btn {
+    color: #ffffff !important;
+}
+
+.dark-mode .offcanvas .btn {
+    color: #ffffff !important;
+}
+
+.dark-mode .offcanvas-title {
+    color: #ffffff !important;
+}
+
+.dark-mode .histHead span {
+    color: #ffffff !important;
+}
+
+.dark-mode .text-secondary {
+    color: #bbbbbb !important;
+}
+
+.dark-mode img {
+    filter: brightness(0) invert(1);
+}
+.dark-mode .btn-close {
+    filter: invert(1) grayscale(100%);
+}
