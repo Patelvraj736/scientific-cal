@@ -33,7 +33,46 @@ const funcButtons = ["|x|", "⌊x⌋", "⌈x⌉", "rand", "→dms", "→deg"];
 let isDegree = true;
 let isExponential = false;
 
+function getActionId(text) {
+    const map = {
+        "+": "add",
+        "−": "subtract",
+        "×": "multiply",
+        "÷": "divide",
+        "=": "equals",
+        "C": "clear",
+        "CE": "clearEntry",
+        "⌫": "backspace",
+        "%": "percent",
+        "+/-": "toggleSign",
+        "x²": "square",
+        "√x": "sqrt",
+        "1/x": "reciprocal",
+        "π": "pi",
+        "e": "euler",
+        "xʸ": "power",
+        "n!": "factorial",
+        "mod": "modulo",
+        "exp": "exp",
+        "10ˣ": "tenPower",
+        "log": "log10",
+        "ln": "ln",
+        "|x|": "abs",
+        "sin": "sin",
+        "cos": "cos",
+        "tan": "tan",
+        "sec": "sec",
+        "csc": "csc",
+        "cot": "cot",
+        "rand": "random",
+        "⌊x⌋": "floor",
+        "⌈x⌉": "ceil",
+        "→dms": "toDMS",
+        "→deg": "toDeg"
+    };
 
+    return map[text] || "number";
+}
 
 angleBtn.addEventListener("click", () => {
     isDegree = !isDegree;
@@ -54,6 +93,10 @@ function renderDropdownButtons(buttonSet, containerId, columns) {
         const btn = document.createElement("button");
         btn.className = "trigo btn btn-light w-100";
         btn.innerText = text;
+
+        // 🔥 assign action id
+        btn.dataset.action = getActionId(text);
+
         gridDiv.appendChild(btn);
     });
 
@@ -65,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     renderDropdownButtons(trigButtons, "trig-grid", 4);
     renderDropdownButtons(funcButtons, "func-grid", 3);
     renderHistory();
+    feBtn.addEventListener("click", toggleFE);
 });
 
 function renderButtons(buttonSet, columns) {
@@ -76,8 +120,14 @@ function renderButtons(buttonSet, columns) {
         col.className = "col";
 
         const btn = document.createElement("button");
-        btn.className = text === "=" ? "btn btn-primary w-100" : "btn btn-light w-100";
+        btn.className = text === "="
+            ? "btn btn-primary w-100"
+            : "btn btn-light w-100";
+
         btn.innerHTML = text;
+
+        // 🔥 assign action id
+        btn.dataset.action = getActionId(text);
 
         col.appendChild(btn);
         calculator.appendChild(col);
@@ -120,12 +170,13 @@ function updateDisplay() {
 
 document.addEventListener("click", (e) => {
     const button = e.target.closest("button");
-    if (!button) return;
-    const val = button.innerText.trim();
-    if (!val) return;
-    handleinput(val);
-})
+    if (!button || !button.dataset.action) return;
 
+    const action = button.dataset.action;
+    const value = button.innerText.trim();
+
+    handleInput(action, value);
+});
 function appendDisplay(val) {
     if (shouldReset) {
         currDisplay = val;
@@ -143,88 +194,136 @@ function appendDisplay(val) {
     updateDisplay();
 }
 
-function handleinput(val) {
-    if (!isNaN(val) || val === ".") {
-        appendDisplay(val);
+function handleInput(action, value) {
+
+    switch (action) {
+
+        case "number":
+        case "decimal":
+            appendDisplay(value);
+            break;
+
+        case "add":
+            chooseOperator("+");
+            break;
+
+        case "subtract":
+            chooseOperator("−");
+            break;
+
+        case "multiply":
+            chooseOperator("×");
+            break;
+
+        case "divide":
+            chooseOperator("÷");
+            break;
+
+        case "equals":
+            calculate();
+            break;
+
+        case "clear":
+            clearAll();
+            break;
+
+        case "clearEntry":
+            clearEntry();
+            break;
+
+        case "backspace":
+            backSpace();
+            break;
+
+        case "percent":
+            percentage();
+            break;
+
+        case "toggleSign":
+            toggleSign();
+            break;
+
+        case "square":
+            square();
+            break;
+
+        case "sqrt":
+            squareRoot();
+            break;
+
+        case "reciprocal":
+            reciprocal();
+            break;
+
+        case "factorial":
+            factorial();
+            break;
+
+        case "power":
+            chooseOperator("^");
+            break;
+
+        case "modulo":
+            chooseOperator("mod");
+            break;
+
+        case "pi":
+            insConst(Math.PI);
+            break;
+
+        case "euler":
+            insConst(Math.E);
+            break;
+
+        case "exp":
+            expPower();
+            break;
+
+        case "tenPower":
+            tenPower();
+            break;
+
+        case "log10":
+            logBase10();
+            break;
+
+        case "ln":
+            naturalLog();
+            break;
+
+        case "abs":
+            absoluteValue();
+            break;
+
+        case "sin":
+        case "cos":
+        case "tan":
+        case "sec":
+        case "csc":
+        case "cot":
+            applyTrig(action);
+            break;
+
+        case "random":
+            randomValue();
+            break;
+
+        case "floor":
+            floorValue();
+            break;
+
+        case "ceil":
+            ceilValue();
+            break;
+
+        case "toDMS":
+            toDMS();
+            break;
+
+        case "toDeg":
+            toDecimalDegrees();
+            break;
     }
-    else if (["+", "−", "×", "÷"].includes(val)) {
-        chooseOperator(val);
-    }
-    else if (val === "CE") {
-        clearEntry();
-    }
-    else if (val === "⌫") {
-        backSpace();
-    }
-    else if (val === "C") {
-        clearAll();
-    }
-    else if (val === "=") {
-        calculate();
-    }
-    else if (val === "+/-") {
-        toggleSign();
-    }
-    else if (val === "%") {
-        percentage();
-    }
-    else if (val === "x²") {
-        square();
-    }
-    else if (val === "√x") {
-        squareRoot();
-    }
-    else if (val === "1/x") {
-        reciprocal();
-    }
-    else if (val === "π") {
-        insConst(Math.PI);
-    }
-    else if (val === "e") {
-        insConst(Math.E);
-    }
-    else if (val === "xʸ") {
-        chooseOperator("^");
-    }
-    else if (val === "n!") {
-        factorial();
-    }
-    else if (val === "mod") {
-        chooseOperator(val);
-    }
-    else if (val === "exp") {
-        expPower();
-    }
-    else if (val === "10ˣ") {
-        tenPower();
-    }
-    else if (val === "log") {
-        logBase10();
-    }
-    else if (val === "ln") {
-        naturalLog();
-    }
-    else if (val === "|x|") {
-        absoluteValue();
-    }
-    else if (["sin", "cos", "tan", "sec", "csc", "cot"].includes(val)) {
-        applyTrig(val);
-    }
-    else if (val === "F-E") {
-    toggleFE();
-}
-else if (val === "⌊x⌋") {
-    floorValue();
-}
-else if (val === "rand") {
-    randomValue();
-}
-else if (val === "→dms") {
-    toDMS();
-}
-else if (val === "→deg") {
-    toDecimalDegrees();
-}
 }
 
 function backSpace() {
@@ -439,7 +538,7 @@ function applyTrig(type) {
 }
 function toggleFE() {
     isExponential = !isExponential;
-        feBtn.classList.toggle("active-fe", isExponential);
+    feBtn.classList.toggle("active-fe", isExponential);
     let num = parseFloat(currDisplay);
     if (isNaN(num)) return;
 
@@ -450,7 +549,7 @@ function toggleFE() {
     }
 
     updateDisplay();
-}   
+}
 function floorValue() {
     updateResult(Math.floor(parseFloat(currDisplay)), `⌊${currDisplay}⌋`);
 }
