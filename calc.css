@@ -1,50 +1,84 @@
 body {
-  margin: 0;
-  background-color: #f5f1f9;
+    margin: 0;
+    background-color: #f5f1f9;
 }
 
 .main {
-  height: 100vh;
+    height: 100vh;
+}
+
+.history {
+    overflow-y: auto;
+}
+
+.history::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.history::-webkit-scrollbar {
+    width: 2px;
 }
 
 .calculation {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
-.calc-head{
+
+.calc-head {
     height: 7vh;
 }
-.result{
+
+.result {
     height: 7vh;
 }
-.value{
+
+.value {
     height: 10vh;
     font-size: 6vh;
     margin-bottom: 8vh;
 }
-#deg-rad ,#function2{
+
+#deg-rad,
+#function2 {
     height: 6vh;
 }
 
 #scientificCalc .col button {
-  height: 100%;
-  width: 100%;
-box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    width: 100%;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 
 }
 
 #calculator .col button {
-  height: 100%;
-  width: 100%;
-box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    width: 100%;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 
 }
-.trigo{
-  padding: 12px 0; 
-  font-size: 1rem; 
-  width: 100%;
+
+.tab-btn {
+    position: relative;
 }
+
+.tab-btn.active-tab::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 33%;
+    width: 35%;
+    height: 3px;
+    background-color: #ff8c00;
+    border-radius: 3px;
+}
+
+.trigo {
+    padding: 12px 0;
+    font-size: 1rem;
+    width: 100%;
+}
+
 .clear-history-btn {
     bottom: 15px;
     right: 15px;
@@ -77,7 +111,38 @@ box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
     background-color: #e5e5e5;
 }
 
+.selMode:hover{
+    background-color: #e5e5e5;
+}
+
 .fe-fn.active-fe::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 33%;
+    width: 35%;
+    height: 3px;
+    background-color: #ff8c00;
+    border-radius: 3px;
+}
+
+.memr-btn:hover {
+    background-color: #e5e5e5;
+}
+
+.mem-btn,
+.hist-btn {
+    position: relative;
+    outline: none;
+}
+
+.mem-btn:hover,
+.hist-btn:hover {
+    background-color: #e5e5e5;
+}
+
+.mem-btn.active-tab::after,
+.hist-btn.active-tab::after {
     content: "";
     position: absolute;
     bottom: 0;
@@ -104,18 +169,20 @@ box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 .dark-mode .histHead,
 .dark-mode .operation,
 .dark-mode .history-result {
-    color: #ffffff ;
+    color: #ffffff;
 }
+
 .dark-mode .btn-light {
-    background-color: #2a2a2a ;
-    color: #ffffff ;
-    border-color: #3a3a3a ;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border-color: #3a3a3a;
 }
 
 .dark-mode .btn-primary {
-    background-color: #ff8c00 ;
-    border-color: #ff8c00 ;
+    background-color: #ff8c00;
+    border-color: #ff8c00;
 }
+
 .dark-mode .dropdown-menu {
     background-color: #2a2a2a;
     color: white;
@@ -128,8 +195,9 @@ box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 }
 
 .dark-mode .btn-light:hover {
-    background-color: #3a3a3a ;
+    background-color: #3a3a3a;
 }
+
 
 .dark-mode #calculator .col button,
 .dark-mode .trigo {
@@ -140,21 +208,31 @@ box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 .dark-mode .fe-fn:hover {
     background-color: #2a2a2a;
 }
+.dark-mode .selMode:hover{
+    background-color: #2a2a2a;
+}
+.dark-mode .memr-btn:hover {
+    background-color: #2a2a2a;
+}
+.mem-btn:hover,
+.hist-btn:hover {
+    background-color: #2a2a2a;
+}
 
 .dark-mode .dropdown-toggle {
-    color: #ffffff 
+    color: #ffffff
 }
 
 .dark-mode #function2 .btn {
-    color: #ffffff 
+    color: #ffffff
 }
 
 .dark-mode #deg-rad .btn {
-    color: #ffffff 
+    color: #ffffff
 }
 
 .dark-mode .offcanvas .btn {
-    color: #ffffff 
+    color: #ffffff
 }
 
 .dark-mode .offcanvas-title {
@@ -162,22 +240,71 @@ box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 }
 
 .dark-mode .histHead span {
-    color: #ffffff ;
+    color: #ffffff;
 }
 
 .dark-mode .text-secondary {
-    color: #bbbbbb ;
+    color: #bbbbbb;
 }
 
 .dark-mode img {
     filter: brightness(0) invert(1);
 }
+
 .dark-mode .btn-close {
     filter: invert(1) grayscale(100%);
 }
+
 #theme-toggle {
     color: #000;
 }
+
 .dark-mode #theme-toggle {
     color: #fff;
+}
+
+.dark-mode .hist-btn,
+.dark-mode .mem-btn {
+    color: #ffffff;
+}
+
+.mobile-tabs button {
+    border-radius: 0;
+}
+
+.mobile-tabs .active-mobile-tab {
+    border-bottom: 3px solid #ff8c00;
+    font-weight: 600;
+}
+
+.dark-mode .mobile-tabs button {
+    color: #fff;
+}
+
+@media (max-width: 991px) {
+
+    #history-pan {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        z-index: 2;
+        transition: right 0.3s ease;
+        overflow-y: auto;
+        background-color: #ffffff;
+
+    }
+
+    body.dark-mode #history-pan {
+        background-color: #1e1e1e;
+        /* Dark mode */
+    }
+
+    #history-pan.show-mobile {
+        right: 0;
+    }
+
+    .calculation {
+        width: 100% !important;
+    }
 }

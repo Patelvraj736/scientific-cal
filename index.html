@@ -17,14 +17,14 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body d-flex flex-column">
-            <div class="btn btn-stan text-start" data-bs-dismiss="offcanvas" onclick="changeToStandard()">Standard</div>
-            <div class="btn btn-stan text-start" data-bs-dismiss="offcanvas" onclick="changeToScientific()">Scientific
+            <div class="selMode btn btn-stan text-start" data-bs-dismiss="offcanvas" onclick="changeToStandard()">Standard</div>
+            <div class="selMode btn btn-stan text-start" data-bs-dismiss="offcanvas" onclick="changeToScientific()">Scientific
             </div>
         </div>
     </div>
 
     <div class="main d-flex w-100">
-        <div class="calculation w-100 w-lg-75  d-flex flex-column">
+        <div class="calculation col-12 col-lg-9  d-flex flex-column">
 
             <div class="calc-head d-flex align-items-center p-2">
                 <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
@@ -36,7 +36,11 @@
                     Dark Theme
                 </button>
             </div>
-
+            <div class="mobile-tabs d-flex d-lg-none">
+                <button class="btn flex-fill active-mobile-tab" id="mobile-calc">Calculator</button>
+                <button class="btn flex-fill" id="mobile-history">History</button>
+                <button class="btn flex-fill" id="mobile-memory">Memory</button>
+            </div>
             <div class="d-flex result justify-content-end text-secondary p-2 align-items-center"></div>
             <div class="value d-flex fw-bold p-2 justify-content-end align-items-center">0</div>
 
@@ -46,34 +50,14 @@
             </div>
 
             <div class="d-flex border-bottom g-1 align-items-center pb-3" id="function2">
-                <div class="btn shadow-none deg-fn hover-overlay">MC</div>
-                <div class="btn shadow-none deg-fn">MR</div>
-                <div class="btn shadow-none deg-fn">M+</div>
-                <div class="btn shadow-none deg-fn">M-</div>
-                <div class="btn shadow-none deg-fn">Ms</div>
+                <button class="btn shadow-none memr-btn" data-action="memoryClear">MC</button>
+                <button class="btn shadow-none memr-btn" data-action="memoryRecall">MR</button>
+                <button class="btn shadow-none memr-btn" data-action="memoryAdd">M+</button>
+                <button class="btn shadow-none memr-btn" data-action="memorySubtract">M-</button>
+                <button class="btn shadow-none memr-btn" data-action="memoryStore">MS</button>
             </div>
 
             <div class="d-flex align-items-center g-1" id="trigo-func">
-                <!-- <div class="dropdown me-2">
-                    <button class="btn dropdown-toggle shadow-none"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Trigonometry
-                    </button>
-                    <ul class="dropdown-menu p-3">
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 20vw;">
-                            <button class="trigo btn btn-light">2nd</button>
-                            <button class="trigo btn btn-light">sin</button>
-                            <button class="trigo btn btn-light">cos</button>
-                            <button class="trigo btn btn-light">tan</button>
-                            <button class="trigo btn btn-light">hyp</button>
-                            <button class="trigo btn btn-light">sec</button>
-                            <button class="trigo btn btn-light">csc</button>
-                            <button class="trigo btn btn-light">cot</button>
-                        </div>
-                    </ul>
-                </div> -->
                 <div class="dropdown me-2">
                     <button class="btn dropdown-toggle shadow-none" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -93,121 +77,25 @@
                         <div id="func-grid"></div>
                     </ul>
                 </div>
-                <!-- <div class="dropdown me-2">
-                    <button class="btn dropdown-toggle shadow-none"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Function
-                    </button>
-                    <ul class="dropdown-menu p-3">
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 20vw;">
-                            <button class="trigo btn btn-light">|x|</button>
-                            <button class="trigo btn btn-light">⌊x⌋</button>
-                            <button class="trigo btn btn-light">⌈x⌉</button>
-                            <button class="trigo btn btn-light">rand</button>
-                            <button class="trigo btn btn-light">→dms</button>
-                            <button class="trigo btn btn-light">→deg</button>
-                        </div>
-                    </ul>
-                </div> -->
             </div>
             <div id="calculator" class="d-flex flex-column mt-2 flex-grow-1"></div>
-            <!-- <div id="scientificCalc"
-                class="d-flex flex-column mt-2 flex-grow-1">
-                <div class="row row-cols-5 g-1 d-flex flex-grow-1">
-                    <div class="col"><button class="btn btn-light">2<sup>nd</sup></button></div>
-                    <div class="col"><button class="btn btn-light">π</button></div>
-                    <div class="col"><button class="btn btn-light">e</button></div>
-                    <div class="col"><button class="btn btn-light">CE</button></div>
-                    <div class="col"><button class="btn btn-light">⌫</button></div>
-
-                    <div class="col"><button class="btn btn-light">x<sup>2</sup></button></div>
-                    <div class="col"><button class="btn btn-light">1/x</button></div>
-                    <div class="col"><button class="btn btn-light">|x|</button></div>
-                    <div class="col"><button class="btn btn-light">exp</button></div>
-                    <div class="col"><button class="btn btn-light">mod</button></div>
-
-                    <div class="col"><button class="btn btn-light">√(x)</button></div>
-                    <div class="col"><button class="btn btn-light">(</button></div>
-                    <div class="col"><button class="btn btn-light">)</button></div>
-                    <div class="col"><button class="btn btn-light">n!</button></div>
-                    <div class="col"><button class="btn btn-light">÷</button></div>
-
-                    <div class="col"><button class="btn btn-light">x<sup>y</sup></button></div>
-                    <div class="col"><button class="btn btn-light">7</button></div>
-                    <div class="col"><button class="btn btn-light">8</button></div>
-                    <div class="col"><button class="btn btn-light">9</button></div>
-                    <div class="col"><button class="btn btn-light">×</button></div>
-
-                    <div class="col"><button class="btn btn-light">10<sup>x</sup></button></div>
-                    <div class="col"><button class="btn btn-light">4</button></div>
-                    <div class="col"><button class="btn btn-light">5</button></div>
-                    <div class="col"><button class="btn btn-light">6</button></div>
-                    <div class="col"><button class="btn btn-light">−</button></div>
-
-                    <div class="col"><button class="btn btn-light">log</button></div>
-                    <div class="col"><button class="btn btn-light">1</button></div>
-                    <div class="col"><button class="btn btn-light">2</button></div>
-                    <div class="col"><button class="btn btn-light">3</button></div>
-                    <div class="col"><button class="btn btn-light">+</button></div>
-
-                    <div class="col"><button class="btn btn-light">ln</button></div>
-                    <div class="col"><button class="btn btn-light">+/-</button></div>
-                    <div class="col"><button class="btn btn-light">0</button></div>
-                    <div class="col"><button class="btn btn-light">.</button></div>
-                    <div class="col"><button class="btn btn-primary">=</button></div>
-                </div>
-
-            </div>
-
-            <div id="standardCalc"
-                class="flex-column mt-2 flex-grow-1 d-none">
-                <div class="row row-cols-4 g-1 d-flex flex-grow-1">
-                    <div class="col"><button class="btn btn-light">%</button></div>
-                    <div class="col"><button class="btn btn-light">CE</button></div>
-                    <div class="col"><button class="btn btn-light">C</button></div>
-                    <div class="col"><button class="btn btn-light">⌫</button></div>
-                    <div class="col"><button class="btn btn-light">1/x</button></div>
-                    <div class="col"><button class="btn btn-light">x<sup>2</sup></button></div>
-                    <div class="col"><button class="btn btn-light">²√x</button></div>
-                    <div class="col"><button class="btn btn-light">÷</button></div>
-                    <div class="col"><button class="btn btn-light">7</button></div>
-                    <div class="col"><button class="btn btn-light">8</button></div>
-                    <div class="col"><button class="btn btn-light">9</button></div>
-                    <div class="col"><button class="btn btn-light">×</button></div>
-
-                    <div class="col"><button class="btn btn-light">4</button></div>
-                    <div class="col"><button class="btn btn-light">5</button></div>
-                    <div class="col"><button class="btn btn-light">6</button></div>
-                    <div class="col"><button class="btn btn-light">−</button></div>
-
-                    <div class="col"><button class="btn btn-light">1</button></div>
-                    <div class="col"><button class="btn btn-light">2</button></div>
-                    <div class="col"><button class="btn btn-light">3</button></div>
-                    <div class="col"><button class="btn btn-light">+</button></div>
-
-                    <div class="col"><button class="btn btn-light w-100">+/-</button></div>
-                    <div class="col"><button class="btn btn-light w-100">0</button></div>
-                    <div class="col"><button class="btn btn-light w-100">.</button></div>
-                    <div class="col"><button class="btn btn-primary w-100">=</button></div>
-
-                </div>
-
-            </div> -->
         </div>
-        <div class="history  flex-grow-1 w-25 d-none d-lg-block">
+        <div class="history col-6 col-lg-3" id="history-pan">
+
             <div class="histHead d-flex justify-content-between align-items-center p-2">
-                <span>History</span>
+                <div>
+                    <button class="btn shadow-none hist-btn active-tab" onclick="showHistory()">History</button>
+                    <button class="btn shadow-none mem-btn" onclick="showMemory()">Memory</button>
+                </div>
 
                 <button class="btn btn-sm p-0 border-0 bg-transparent clear-history-btn" onclick="clearHistory()">
                     <img src="./assets/clear.svg" alt="Clear History" width="18" height="18">
                 </button>
             </div>
-            <div class="history-list">
-                <div class="operation text-secondary text-end">There's no History yet</div>
-                <div class="hitory-result text-end"></div>
-            </div>
+
+            <div id="history-panel" class="history-list"></div>
+            <div id="memory-panel" class="history-list d-none"></div>
+
         </div>
     </div>
     </div>
