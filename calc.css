@@ -283,6 +283,10 @@ body {
 
 @media (max-width: 991px) {
 
+    .value {
+
+    margin-bottom: 0;
+}
     #history-pan {
         position: fixed;
         top: 0;
