@@ -343,14 +343,23 @@ function clearAll() {
 }
 function chooseOperator(op) {
 
-    if (!shouldReset && currDisplay !== "0") {
+    if (currExpression === "") {
+        currExpression = currDisplay;
+    }
+
+    else if (!shouldReset) {
         currExpression += currDisplay;
+    }
+    else {
+        currExpression = currExpression.trim();
+        if (/[+\-×÷^%]$/.test(currExpression)) {
+            currExpression = currExpression.slice(0, -1);
+        }
     }
 
     currExpression += " " + op + " ";
     resultDisplay.innerText = currExpression;
 
-    currDisplay = "0";
     shouldReset = true;
 }
 function calculate() {
