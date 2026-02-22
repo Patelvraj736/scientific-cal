@@ -27,6 +27,7 @@ body {
 
 .calc-head {
     height: 7vh;
+    font-size: large;
 }
 
 .result {
