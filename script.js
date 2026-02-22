@@ -233,19 +233,25 @@ document.addEventListener("click", (e) => {
 });
 
 function appendDisplay(val) {
+
     if (shouldReset) {
-        currDisplay = val;
+        currDisplay = val === "." ? "0." : val;
         shouldReset = false;
-    } else if (currDisplay === "0") {
-        currDisplay = val;
-    } else if (val === "." && currDisplay.includes(".")) {
+        updateDisplay();
         return;
+    }
+    if (val === "." && currDisplay.includes(".")) return;
+    if (currDisplay === "0") {
+        if (val === ".") {
+            currDisplay = "0.";
+        } else {
+            currDisplay = val;
+        }
     } else {
         currDisplay += val;
     }
     updateDisplay();
 }
-
 function handleInput(action, value) {
     switch (action) {
         case "number":
