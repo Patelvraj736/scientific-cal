@@ -69,9 +69,14 @@ export function setupMemory() {
     }
 
     return {
-        clearMemory() { savedNumbers = []; refreshMemoryPanel(); },
+        clearMemory() {
+             savedNumbers = []; 
+             refreshMemoryPanel(); 
+            },
 
-        getLastValue() { return savedNumbers.length > 0 ? savedNumbers[savedNumbers.length - 1] : null; },
+        getLastValue() { 
+            return savedNumbers.length > 0 ? savedNumbers[savedNumbers.length - 1] : null; 
+        },
 
         addToMemory(val) {
             savedNumbers.length === 0 ? savedNumbers.push(val) : (savedNumbers[savedNumbers.length - 1] += val);
@@ -82,7 +87,10 @@ export function setupMemory() {
             savedNumbers.length === 0 ? savedNumbers.push(-val) : (savedNumbers[savedNumbers.length - 1] -= val);
             refreshMemoryPanel();
         },
-        saveToMemory(val) { savedNumbers.push(val); refreshMemoryPanel(); },
+        saveToMemory(val) { 
+            savedNumbers.push(val); 
+            refreshMemoryPanel(); 
+        },
 
         refreshMemoryPanel
     };

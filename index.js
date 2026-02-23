@@ -73,8 +73,8 @@ const feBtn = document.querySelector(".fe-fn");
 const themeToggle = document.getElementById("theme-toggle");
 
 // for display
-function updateDisplay() { 
-    valueDisplay.innerText = currDisplay; 
+function updateDisplay() {
+    valueDisplay.innerText = currDisplay;
 }
 
 function updateResult(val, expr) {
@@ -104,13 +104,13 @@ function clearAll() {
     resultDisplay.innerText = "";
     updateDisplay();
 }
-function clearEntry() { 
-    currDisplay = "0"; 
-    updateDisplay(); 
+function clearEntry() {
+    currDisplay = "0";
+    updateDisplay();
 }
-function backSpace() { 
-    currDisplay = currDisplay.length === 1 ? "0" : currDisplay.slice(0, -1); 
-    updateDisplay(); 
+function backSpace() {
+    currDisplay = currDisplay.length === 1 ? "0" : currDisplay.slice(0, -1);
+    updateDisplay();
 }
 function toggleSign() {
     if (currDisplay === "0" || currDisplay === "Error") return;
@@ -147,15 +147,16 @@ function calculate() {
     if (!checkExpression(expr)) { updateResult("Error", ""); currExpression = ""; return; }
 
     let result;
-    try { 
-        result = eval(expr); 
-    } catch { 
+    try {
+        result = eval(expr);
+    } catch {
         result = NaN;
-     }
-    if (!isFinite(result)) { 
-        updateResult("Error", ""); 
-        currExpression = ""; 
-        return; }
+    }
+    if (!isFinite(result)) {
+        updateResult("Error", "");
+        currExpression = "";
+        return;
+    }
 
     updateResult(result, currExpression + " =");
     currExpression = "";
@@ -167,10 +168,10 @@ function insConst(value) {
 
 // func for unary operators
 function unCalc(result, label) {
-    if (result === null || !isFinite(result)) { 
+    if (result === null || !isFinite(result)) {
         updateResult("Error", "");
-         return; 
-        }
+        return;
+    }
     updateResult(result, label);
 }
 
@@ -196,7 +197,6 @@ function renderButtons(buttonSet, columns) {
     });
 }
 
-let trigAbortController = null;
 function renderDropdownButtons(buttonSet, containerId, columns) {
     const container = document.getElementById(containerId);
     container.innerHTML = "";
@@ -217,6 +217,7 @@ function renderDropdownButtons(buttonSet, containerId, columns) {
     container.appendChild(grid);
 }
 
+let trigAbortController = null;
 function attachTrigGridListener() {
     if (trigAbortController) trigAbortController.abort();
     trigAbortController = new AbortController();
@@ -345,20 +346,38 @@ function handleInput(action, value) {
             storedValue = null; currOperator = null; break;
         }
         case "logBaseY": {
-            if (storedValue === null) { chooseOperator("logBaseY"); break; }
+            if (storedValue === null) {
+                chooseOperator("logBaseY");
+                break;
+            }
             unCalc(math.logBaseY(n, parseFloat(storedValue)), "log" + storedValue + "(" + currDisplay + ")");
-            storedValue = null; currOperator = null; break;
+            storedValue = null;
+            currOperator = null;
+            break;
         }
         case "openBracket":
             if (!shouldReset && currDisplay !== "0") currExpression += currDisplay;
             currExpression += "(";
             resultDisplay.innerText = currExpression;
-            currDisplay = "0"; shouldReset = true; break;
-        case "closeBracket":
-            if (!shouldReset && currDisplay !== "0") currExpression += currDisplay;
-            currExpression += ")";
-            resultDisplay.innerText = currExpression;
-            currDisplay = "0"; shouldReset = true; break;
+            currDisplay = "0";
+            shouldReset = true;
+            break;
+        case "closeBracket": {
+            if (!shouldReset && currDisplay !== "0") {
+                currExpression += currDisplay;
+            }
+            const openCount = (currExpression.match(/\(/g) || []).length;
+            const closeCount = (currExpression.match(/\)/g) || []).length;
+
+            if (openCount > closeCount) {
+                currExpression += ")";
+                resultDisplay.innerText = currExpression;
+                currDisplay = "0";
+                shouldReset = true;
+            }
+
+            break;
+        }
         case "memoryClear":
             memory.clearMemory(); break;
         case "memoryRecall":
@@ -430,7 +449,9 @@ window.showMemory = function () {
     document.querySelector(".mem-btn").classList.add("active-tab");
     document.querySelector(".hist-btn").classList.remove("active-tab");
 };
-window.clearHistory = function () { history.deleteAll(); };
+window.clearHistory = function () {
+    history.deleteAll();
+};
 
 // tabs for mobile
 const rightPanel = document.getElementById("history-pan");
@@ -443,18 +464,18 @@ function setActiveMobile(btn) {
     btn.classList.add("active-mobile-tab");
 }
 mobileCalc.addEventListener("click", () => {
-     rightPanel.classList.remove("show-mobile"); 
-     setActiveMobile(mobileCalc);
-     });
-mobileHistory.addEventListener("click", () => { 
-    rightPanel.classList.add("show-mobile"); 
-    showHistory(); 
-    setActiveMobile(mobileHistory); 
+    rightPanel.classList.remove("show-mobile");
+    setActiveMobile(mobileCalc);
 });
-mobileMemory.addEventListener("click", () => { 
-    rightPanel.classList.add("show-mobile"); 
-    showMemory(); 
-    setActiveMobile(mobileMemory); 
+mobileHistory.addEventListener("click", () => {
+    rightPanel.classList.add("show-mobile");
+    showHistory();
+    setActiveMobile(mobileHistory);
+});
+mobileMemory.addEventListener("click", () => {
+    rightPanel.classList.add("show-mobile");
+    showMemory();
+    setActiveMobile(mobileMemory);
 });
 
 renderButtons(scientificButtons, 5);
