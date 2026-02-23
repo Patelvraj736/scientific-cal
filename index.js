@@ -294,6 +294,8 @@ function handleInput(action, value) {
             toggleSign(); break;
         case "square":
             unCalc(math.square(n), currDisplay + "²"); break;
+        case "tenPower":
+            unCalc(math.tenToThePower(n),  "10^(" + currDisplay + ")"); break;
         case "cube":
             unCalc(math.cube(n), currDisplay + "³"); break;
         case "sqrt":
