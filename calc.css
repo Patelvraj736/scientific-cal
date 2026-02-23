@@ -218,8 +218,8 @@ body {
     background-color: #2a2a2a;
 }
 
-.mem-btn:hover,
-.hist-btn:hover {
+.dark-mode .mem-btn:hover,
+.dark-mode .hist-btn:hover {
     background-color: #2a2a2a;
 }
 
